@@ -1,0 +1,59 @@
+<!Doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<title> Captcha Test </title>
+<script src="vendor/jquery/jquery.min.js"></script>
+<script>
+function processForm()
+{
+var k=$("#captchaForm").find("input[name=captchaCode]").val();
+var obj={"argument-1":k};
+console.log(obj);
+$.ajax('/tmdmmodel/webservice/Captcha/verify',{
+type: "POST",
+contentType: "application/json",
+data: JSON.stringify(obj),
+success: function(res)
+{
+if(res.success)
+{
+if(res.isReturningSomething)
+{
+if(parseInt(JSON.stringify(res.result))==1)
+{
+console.log("good");
+document.getElementById('captchaVerifiedForm').submit();
+}
+else
+{
+console.log("bad");
+}
+}
+else alert("Work Done");
+}
+else
+{
+if(res.isException) alert(res.exception);
+else alert(res.error);
+}
+},
+error: function(err){
+alert("Error is : "+err);
+}
+
+});
+}
+</script>
+</head>
+<body>
+<h3> Captcha Test </h3>
+<form id='captchaForm'>
+<img src='webservice/captcha' />
+<input type='text' id='captchaCode' name='captchaCode' placeholder='CAPTCHA'>
+<button type='button' onclick='processForm()'>Verify</button>
+</form>
+<form id='captchaVerifiedForm' action='/tmdmmodel/captchaVerified.html'>
+</form>
+</body>
+</html>

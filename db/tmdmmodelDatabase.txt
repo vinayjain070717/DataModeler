@@ -1,0 +1,3 @@
+Database User : tmdbuser
+Database Password : tmdbuser
+Database Name: tmdmodeldb 

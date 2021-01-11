@@ -1,0 +1,48 @@
+<!Doctype html>
+<html lang='en'>
+<head>
+<script src="/tmdmmodel/vendor/jquery/jquery.min.js"></script>
+<script>
+function check()
+{
+if($('#isPrimaryKey:checked').val()==1)
+{
+console.log("Checkbox clicked");
+}
+else
+{
+console.log("checkbox not clicked");
+}
+//console.log($('#isNotNull').val());
+//console.log($('#isAutoIncrement').val());
+//console.log($('#isUnique').val());
+}
+</script>
+</head>
+<body>
+<table border='0'>
+<tr>
+<td>Primary Key</td>
+<td>&nbsp;&nbsp;&nbsp;</td>
+<td><input type='checkbox' name='isPrimaryKey' id='isPrimaryKey' value='1'></td>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td>Allow Auto Increment</td>
+<td>&nbsp;&nbsp;&nbsp;</td>
+<td><input type='checkbox' name='isAutoIncrement' id='isAutoIncrement' ></td>
+</tr>
+<tr>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+</tr>
+<tr>
+<td>Unique Key</td>
+<td>&nbsp;&nbsp;&nbsp;</td>
+<td><input type='checkbox' name='isUnique' id='isUnique' ></td>
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+<td>Not Null</td>
+<td>&nbsp;&nbsp;&nbsp;</td>
+<td><input type='checkbox' name='isNotNull' id='isNotNull' ></td>
+</tr>
+<table>
+<button type='button' onclick='check()'>Check values</button>
+</body>
+</html>

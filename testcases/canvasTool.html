@@ -1,0 +1,154 @@
+<!Doctype html>
+<html lang='en'>
+<head>
+<meta charset='utf-8'>
+<title> Canvas Tool </title>
+<script src="/tmdmmodel/vendor/jquery/jquery.min.js"></script>
+<script>
+var tableComponents=[];
+var canvas;
+var canvasContext;
+window.onload=function()
+{
+canvas=document.getElementById('myCanvas');
+canvasContext=canvas.getContext('2d');
+canvas.addEventListener("click",clickFunction);
+}
+function Field(vSerialNumber,vName,vType,vConstraint,vDefaultValue)
+{
+this.serialNumber="";
+this.name="";
+this.type="";
+this.constraint="";
+this.defaultValue="";
+}
+function DatabaseTable(vName)
+{
+this.name=vName;
+this.fields=[];
+}
+function TableDrawable(vX,vY,vDatabaseTable)
+{
+this.x=vX;
+this.y=vY;
+this.databaseTable=vDatabaseTable;
+this.scroll=function(text_width)
+{
+var isScroll=false;
+if(canvas.width<this.x+text_width)
+{
+isScroll=true;
+var diff=this.x+text_width-canvas.width;
+canvas.width=canvas.width+diff+20;
+$("#canvasDivision").scrollLeft(canvas.width);
+}
+if(canvas.height<this.y+100)
+{
+isScroll=true;
+var diff=this.y+100-canvas.height;
+canvas.height=canvas.height+diff+20;
+$("#canvasDivision").scrollTop(canvas.height);
+}
+if(isScroll)
+{
+canvasContext.clearRect(0,0,canvas.width,canvas.height);
+draw();
+}
+}
+this.draw=function()
+{
+canvasContext.font='20px Sans-Serif';
+var textWidth=(canvasContext.measureText(this.databaseTable.name).width);
+this.scroll(textWidth);
+canvasContext.fillStyle='#000000';
+for(i=0;i<this.databaseTable.fields.length;i++)
+{
+var serialNumber=this.databaseTable.fields[i].serialNumber;
+var name=this.databaseTable.fields[i].name;
+var type=this.databaseTable.fields[i].type;
+var constraint=this.databaseTable.fields[i].constraint;
+var defaultValue=this.databaseTable.fields[i].defaultValue;
+var fieldText=serialNumber+" "+name+" "+type+" "+constraint+" "+defaultValue;
+var textWidth=(canvasContext.measureText(fieldText).width);
+canvasContext.fillText(fieldText,this.x+10,this.y+(20)*i+50);
+this.scroll(textWidth+20);
+}
+canvasContext.beginPath();
+canvasContext.rect(this.x,this.y,textWidth+20,100);
+canvasContext.moveTo(this.x,this.y+30);
+canvasContext.lineTo(this.x+textWidth+20,this.y+30);
+canvasContext.stroke();
+canvasContext.fillText(this.databaseTable.name,this.x,this.y+20);
+}
+}
+function TableComponent()
+{
+this.drawableTable=null;
+this.tableDrawable=null;
+this.draw=function()
+{
+this.tableDrawable.draw();
+}
+}
+function draw()
+{
+//code to clear canvas
+canvasContext.clearRect(0,0,canvas.width,canvas.height);
+for(var i=0;i<tableComponents.length;i++)
+{
+tableComponents[i].draw();
+}
+}
+function calculateMousePosition(event)
+{
+var rect=canvas.getBoundingClientRect();
+var root=document.documentElement;
+var mouseX=event.clientX-rect.left-root.scrollLeft;
+var mouseY=event.clientY-rect.top-root.scrollTop;
+return {
+x:mouseX,
+y:mouseY
+};
+}
+function clickFunction(event)
+{
+var position=calculateMousePosition(event);
+var xCor=position.x;
+var yCor=position.y;
+
+//determine what should be the default table name
+var defaultTableName="Table 1";
+var databaseTable=new DatabaseTable(defaultTableName);
+var field=new Field();
+field.serialNumber=1;
+field.name="abcd";
+field.type="int";
+field.constraint="NN";
+field.defaultValue="100";
+databaseTable.fields.push(field);
+field=new Field();
+field.serialNumber=2;
+field.name="lmnq";
+field.type="int";
+field.constraint="NN";
+field.defaultValue="100";
+databaseTable.fields.push(field);
+
+var tableDrawable=new TableDrawable(xCor,yCor,databaseTable);
+var tableComponent=new TableComponent();
+tableComponent.databaseTable=databaseTable;
+tableComponent.tableDrawable=tableDrawable;
+//add tableComponent to tableComponents array
+tableComponents.push(tableComponent);
+draw();
+}
+</script>
+</head>
+<body>
+<div id='canvasDivision' style="max-width: 600px;max-height: 400px; overflow: scroll;">
+<canvas id='myCanvas' width='580px' height='370' style='border:1px solid black;'>
+</canvas>
+</div>
+</body>
+</html>
+

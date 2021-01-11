@@ -1,0 +1,49 @@
+function Field()
+{
+this.name="";
+//properties
+}
+function DatabaseTable(vName)
+{
+this.name=vName;
+this.fields=[];
+//more properties
+}
+function TableDrawable(vX,vY,vDrawableTable)
+{
+this.x=vX;
+this.y=vY;
+this.databaseTable=vDatabaseTable;
+this.draw=function();
+}
+function TableComponant()
+{
+this.drawableTable=null;
+this.tableDrawable=null;
+this.draw=function()
+{
+tableDrawable.draw();
+}
+}
+var tableComponants=[];
+function draw()
+{
+//code to clear canvas
+for(var i=0;i<tableComponents.length;i++)
+{
+tableComponents[i].draw();
+}
+}
+function jabTableAddKarnaHain()
+{
+determine x,y cor(mouse location);
+determine what should be the default table name (table1)
+var databaseTable=new DatabaseTable(defaultTableName);
+var tableDrawable=new TableDrawable(x,y,databaseTable);
+var tableComponent=new TableComponent();
+tableComponent.databaseTable=databaseTable;
+tableComponent.tableDrawable=tableDrawable;
+// add tableComponent to tableComponents array
+draw();
+
+}
