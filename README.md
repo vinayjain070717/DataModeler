@@ -9,7 +9,7 @@ This tool is made up of using lots of DS, to improve speed and made with thinkin
 These things should be installed and configured in your system for running this application properly.
 1) Java (1.8 or higher)
 2) Apache tomcat 9
-3) Mysql
+3) Mysql 5.7 
 
 ## Features
 
